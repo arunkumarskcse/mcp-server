@@ -1,0 +1,19 @@
+{
+  "name": "HubSpot MCP Server",
+  "description": "A server application for HubSpot Marketplace",
+  "scopes": [
+    "crm.objects.contacts.read",
+    "crm.objects.contacts.write",
+    "crm.objects.companies.read",
+    "crm.objects.companies.write"
+  ],
+  "auth": {
+    "oauth2": {
+      "client_id": "${HUBSPOT_CLIENT_ID}",
+      "client_secret": "${HUBSPOT_CLIENT_SECRET}",
+      "redirect_uri": "${HUBSPOT_REDIRECT_URI}"
+    }
+  },
+  "webhooks": [],
+  "version": "0.1.0"
+} 
