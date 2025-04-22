@@ -1,10 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+    // function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function () {
+        // function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        // function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        // function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -36,8 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var hubspot_client_1 = require("@/lib/hubspot-client");
-var readline = require("readline");
+import readline from 'readline';
+import { hubspotClient } from '@/lib/hubspot-client';
+
 // Set up stdin/stdout interface
 var rl = readline.createInterface({
     input: process.stdin,
@@ -46,7 +47,7 @@ var rl = readline.createInterface({
 });
 // Handle cleanup on process exit
 process.on('SIGINT', function () { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
+    return __generator(this, function () {
         console.log('[HubSpot MCP] Shutting down...');
         rl.close();
         process.exit(0);
@@ -77,8 +78,9 @@ function validateContactId(contactId) {
     }
     return true;
 }
+// Ensure all cases in the switch statement have a default action
 rl.on("line", function (line) { return __awaiter(void 0, void 0, void 0, function () {
-    var input, result, _a, error_1, err;
+    var input, result, error_1, err;
     var _b, _c, _d, _e;
     return __generator(this, function (_f) {
         switch (_f.label) {
@@ -86,15 +88,16 @@ rl.on("line", function (line) { return __awaiter(void 0, void 0, void 0, functio
                 _f.trys.push([0, 11, , 12]);
                 input = JSON.parse(line);
                 result = void 0;
-                _a = input.command;
-                switch (_a) {
+                switch (input.command) {
                     case "GET_CONTACTS": return [3 /*break*/, 1];
                     case "ADD_CONTACT": return [3 /*break*/, 3];
                     case "UPDATE_CONTACT": return [3 /*break*/, 5];
                     case "DELETE_CONTACT": return [3 /*break*/, 7];
+                    default:
+                        throw new Error("Unknown command");
                 }
                 return [3 /*break*/, 9];
-            case 1: return [4 /*yield*/, hubspot_client_1.hubspotClient.getContacts()];
+            case 1: return [4 /*yield*/, hubspotClient.getContacts()];
             case 2:
                 result = _f.sent();
                 return [3 /*break*/, 10];
@@ -103,7 +106,7 @@ rl.on("line", function (line) { return __awaiter(void 0, void 0, void 0, functio
                     throw new Error('Contact data is required');
                 }
                 validateContactData(input.payload.contact);
-                return [4 /*yield*/, hubspot_client_1.hubspotClient.addContact(input.payload.contact)];
+                return [4 /*yield*/, hubspotClient.addContact(input.payload.contact)];
             case 4:
                 result = _f.sent();
                 return [3 /*break*/, 10];
@@ -113,7 +116,7 @@ rl.on("line", function (line) { return __awaiter(void 0, void 0, void 0, functio
                 }
                 validateContactId(input.payload.contactId);
                 validateContactData(input.payload.contact);
-                return [4 /*yield*/, hubspot_client_1.hubspotClient.updateContact(input.payload.contactId, input.payload.contact)];
+                return [4 /*yield*/, hubspotClient.updateContact(input.payload.contactId, input.payload.contact)];
             case 6:
                 result = _f.sent();
                 return [3 /*break*/, 10];
@@ -122,7 +125,7 @@ rl.on("line", function (line) { return __awaiter(void 0, void 0, void 0, functio
                     throw new Error('Contact ID is required');
                 }
                 validateContactId(input.payload.contactId);
-                return [4 /*yield*/, hubspot_client_1.hubspotClient.deleteContact(input.payload.contactId)];
+                return [4 /*yield*/, hubspotClient.deleteContact(input.payload.contactId)];
             case 8:
                 result = _f.sent();
                 return [3 /*break*/, 10];

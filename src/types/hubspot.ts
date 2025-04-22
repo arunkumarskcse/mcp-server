@@ -1,4 +1,4 @@
-import { SimplePublicObject, SimplePublicObjectWithAssociations } from '@hubspot/api-client/lib/codegen/crm/contacts';
+import { SimplePublicObject } from '@hubspot/api-client/lib/codegen/crm/contacts';
 
 export interface HubSpotContact {
   id?: string;
@@ -24,4 +24,4 @@ export interface HubSpotResponse {
   success: boolean;
   data?: SimplePublicObject | SimplePublicObject[] | { message: string };
   error?: string;
-} 
+}
